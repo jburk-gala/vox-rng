@@ -16,14 +16,14 @@ if (!opts.file) {
 const results: string[] = [];
 
 createReadStream(opts.file)
-  .pipe(csvParser(["wallet"]))
+  .pipe(csvParser())
   .on("data", (data) => results.push(data.wallet))
   .on("end", () => {
     // Figure out our list of winners! (ES6 is awesome!)
     const winners = results
       // Yeet the title row
       .filter((val) => val != "wallet")
-      .map((result) => Math.random() < parseFloat(opts.weight) && result)
+      .map((result) => Math.random() < +opts.weight && result)
       .filter(Boolean);
 
     // Add address label to the beginning

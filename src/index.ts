@@ -1,8 +1,9 @@
 import { program } from "commander";
 import csvParser from "csv-parser";
 import { createReadStream, createWriteStream } from "fs";
-import seedrandom from 'seedrandom';
+import seedrandom from "seedrandom";
 
+let totalBalance = 0;
 
 program.option("-r, --random <number>", "random number from chainlink");
 program.option("-f, --folder <type>", "path to snapshots");
@@ -17,7 +18,6 @@ if (!opts.folder || !opts.random || !opts.weight) {
 
 const RNG = seedrandom(opts.random);
 
-
 const snapshotTrolls: { wallet: string; balance: number }[] = [];
 const snapshotBoxes: { wallet: string; balance: number }[] = [];
 const winners: { [wallet: string]: number } = {};
@@ -25,9 +25,10 @@ let winnerCount = 0;
 
 createReadStream(`${opts.folder}/trolls_vox_balance.csv`)
   .pipe(csvParser())
-  .on("data", (data) =>
-    snapshotTrolls.push({ wallet: data.wallet, balance: data.balance })
-  )
+  .on("data", (data) => {
+    totalBalance += Number(data.balance);
+    snapshotTrolls.push({ wallet: data.wallet, balance: data.balance });
+  })
   .on("end", () => {
     snapshotTrolls.forEach((row) => {
       updateWinner(row.wallet, row.balance);
@@ -35,9 +36,10 @@ createReadStream(`${opts.folder}/trolls_vox_balance.csv`)
 
     createReadStream(`${opts.folder}/trolls_vox_box.csv`)
       .pipe(csvParser())
-      .on("data", (data) =>
-        snapshotBoxes.push({ wallet: data.wallet, balance: data.balance })
-      )
+      .on("data", (data) => {
+        totalBalance += Number(data.balance);
+        snapshotBoxes.push({ wallet: data.wallet, balance: data.balance });
+      })
       .on("end", () => {
         snapshotBoxes.forEach((row) => {
           updateWinner(row.wallet, row.balance);
@@ -52,6 +54,7 @@ createReadStream(`${opts.folder}/trolls_vox_balance.csv`)
         const winnerFile = `${opts.folder}/winners.csv`;
         createWriteStream(winnerFile).write(output.join("\n"));
         console.log("Winners written to file: ", winnerFile);
+        console.log("Total Entries: ", totalBalance);
         console.log("Total Winners: ", winnerCount);
       });
   });

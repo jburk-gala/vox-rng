@@ -1,33 +1,68 @@
 import { program } from "commander";
 import csvParser from "csv-parser";
 import { createReadStream, createWriteStream } from "fs";
+import seedrandom from 'seedrandom';
 
-program.option("-f, --file <type>", "path to csv file");
-program.option("-o, --output <type>", "output file path", "winners.csv");
-program.option("-w, --weight <decimal>", "weight of the prize", "0.1");
+
+program.option("-r, --random <number>", "random number from chainlink");
+program.option("-f, --folder <type>", "path to snapshots");
+program.option("-w, --weight <decimal>", "weight of the prize");
 program.parse(process.argv);
 const opts = program.opts();
 
-if (!opts.file) {
-  console.error("Please specify csv a file.");
+if (!opts.folder || !opts.random || !opts.weight) {
+  console.error("Please provide all inputs.");
   process.exit(1);
 }
 
-const results: string[] = [];
+const RNG = seedrandom(opts.random);
 
-createReadStream(opts.file)
+
+const snapshotTrolls: { wallet: string; balance: number }[] = [];
+const snapshotBoxes: { wallet: string; balance: number }[] = [];
+const winners: { [wallet: string]: number } = {};
+let winnerCount = 0;
+
+createReadStream(`${opts.folder}/trolls_vox_balance.csv`)
   .pipe(csvParser())
-  .on("data", (data) => results.push(data.wallet))
+  .on("data", (data) =>
+    snapshotTrolls.push({ wallet: data.wallet, balance: data.balance })
+  )
   .on("end", () => {
-    // Figure out our list of winners! (ES6 is awesome!)
-    const winners = results
-      // Yeet the title row
-      .filter((val) => val != "wallet")
-      .map((result) => Math.random() < +opts.weight && result)
-      .filter(Boolean);
+    snapshotTrolls.forEach((row) => {
+      updateWinner(row.wallet, row.balance);
+    });
 
-    // Add address label to the beginning
-    winners.unshift("addresses");
-    createWriteStream(opts.output).write(winners.join("\n"));
-    console.log("Winners written to file: ", opts.output);
+    createReadStream(`${opts.folder}/trolls_vox_box.csv`)
+      .pipe(csvParser())
+      .on("data", (data) =>
+        snapshotBoxes.push({ wallet: data.wallet, balance: data.balance })
+      )
+      .on("end", () => {
+        snapshotBoxes.forEach((row) => {
+          updateWinner(row.wallet, row.balance);
+        });
+
+        const output = Object.entries(winners).map(
+          (winner) => `${winner[0]},${winner[1]}`
+        );
+        //Add headers
+        output.unshift("address,quantity");
+
+        const winnerFile = `${opts.folder}/winners.csv`;
+        createWriteStream(winnerFile).write(output.join("\n"));
+        console.log("Winners written to file: ", winnerFile);
+        console.log("Total Winners: ", winnerCount);
+      });
   });
+
+const updateWinner = (address: string, balance: number) => {
+  let wins = winners[address] || 0;
+  for (let index = 0; index < balance; index++) {
+    if (RNG() <= opts.weight) {
+      wins++;
+      winnerCount++;
+    }
+    if (wins) winners[address] = wins;
+  }
+};

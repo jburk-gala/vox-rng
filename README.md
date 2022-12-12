@@ -38,6 +38,11 @@ Snapshot 3 Seed
 88486387564439318175546429123703682673742175412251917200666443952505114746998
 https://etherscan.io/tx/0x16a6df50d3c3882729e7f0be422fe7b72104ef3a0f2d41a91fd516b66a170625
 
+Snapshot 4 Seed
+---------------------------------------------------------------------------------
+61693732413080361651178569732986183511312843034089046923583654999249598723844
+https://etherscan.io/tx/0x31d0c218efb1c23f1c61dd8d0ee18e40a8e8ff74d56415d18078287fb432c2b1
+
 
 
 To run Snapshot_1 (Commons) Taken 11/21/2022:
@@ -60,4 +65,9 @@ To run Snapshot_2 Increased Odds (Uncommons) Taken 11/30/2022:
 To run Snapshot_3 (Rare) Taken 12/5/2022:
 ```bash
     npm start -- --folder ./Snapshot_3 --weight 0.028 --random 88486387564439318175546429123703682673742175412251917200666443952505114746998
+```
+
+To run Snapshot_4 (Epic) Taken 12/12/2022:
+```bash
+    npm start -- --folder ./Snapshot_4 --weight 0.016 --random 61693732413080361651178569732986183511312843034089046923583654999249598723844
 ```

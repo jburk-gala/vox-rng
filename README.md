@@ -16,9 +16,10 @@ So Common Chance is .51 * .20 = 0.102
 
 
 Wallets Removed From Airdrop List (Gala wallets):
-- 0xaa94d963bd7b6c8ddde07a4b4cf13e26c2650899
-- 0xaa1d6169247dc28ac8f09b8c692b865aa423b06a
-- 0x5171dcfd09ac42f591f9bb90bc9a330cd0cc0d94
+  "0x5c5f2d6b503ff195cb989cbcfe73d92858c491a9",
+  "0xaa1d6169247dc28ac8f09b8c692b865aa423b06a",
+  "0x5171dcfd09ac42f591f9bb90bc9a330cd0cc0d94",
+  "0xaa94d963bd7b6c8ddde07a4b4cf13e26c2650899",
 
 Transactions will be obtained from chainlink contract: https://etherscan.io/address/0xf908b478019201db8f3b7e1379ef14d4f64d0fcf
 

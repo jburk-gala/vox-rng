@@ -48,6 +48,11 @@ Snapshot 5 Seed
 22382021700260084823541093851507930364323037110662907837618060968246314027493
 https://etherscan.io/tx/0xec20efc88cf42d7114c5a8bf90607c7668b62817e9fdaee54a1b4a4aaf17e24e
 
+Snapshot 6 Seed
+---------------------------------------------------------------------------------
+10318029227327900328014751277853684394678898402033365597660316445245888263893
+https://etherscan.io/tx/0xc7488f52e7046f4aac4c470487c5711dcc8be89b3c6501300ed99669b4af227f
+
 
 
 To run Snapshot_1 (Commons) Taken 11/21/2022:
@@ -77,12 +82,12 @@ To run Snapshot_4 (Epic) Taken 12/12/2022:
     npm start -- --folder ./Snapshot_4 --weight 0.016 --random 61693732413080361651178569732986183511312843034089046923583654999249598723844
 ```
 
-To run Snapshot_5 (Epic) Taken 12/19/2022:
+To run Snapshot_5 (Legendary) Taken 12/19/2022:
 ```bash
     npm start -- --folder ./Snapshot_5 --weight 0.008 --random 22382021700260084823541093851507930364323037110662907837618060968246314027493
 ```
 
 To run Snapshot_6 (Ancient) Taken 1/6/2023:
 ```bash
-    npm start -- --folder ./Snapshot_5 --weight 0.002 --random TBD
+    npm start -- --folder ./Snapshot_6 --weight 0.001 --random 10318029227327900328014751277853684394678898402033365597660316445245888263893
 ```

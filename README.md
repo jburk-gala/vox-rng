@@ -81,3 +81,8 @@ To run Snapshot_5 (Epic) Taken 12/19/2022:
 ```bash
     npm start -- --folder ./Snapshot_5 --weight 0.008 --random 22382021700260084823541093851507930364323037110662907837618060968246314027493
 ```
+
+To run Snapshot_6 (Ancient) Taken 1/6/2023:
+```bash
+    npm start -- --folder ./Snapshot_5 --weight 0.002 --random TBD
+```
